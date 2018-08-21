@@ -1,20 +1,17 @@
 const express = require('express');
-const mongojs = require("mongojs");
 const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const mongojs = require('mongojs');
 const router = express.Router();
 
+
 // Save the URL of our database as well as the name of our collection
-const databaseUrl = "reddit-clone";
-const collections = ["Users"];
+const databaseUrl = 'reddit-clone';
+const collections = ['Users'];
 
 // Use mongojs to hook the database to the db constiable
 const db = mongojs(databaseUrl, collections);
 
-// This makes sure that any errors are logged if mongodb runs into an issue
-db.on("error", function(error) {
-  console.log("Database Error:", error);
-});
 
 // Register a user
 router.post('/register', (req, res) => {
@@ -76,8 +73,6 @@ router.post('/login', (req, res) => {
     }
   });
 });
-
-// TODO Update user info
 
 // TODO Reset user password via email w/ nodemailer
 

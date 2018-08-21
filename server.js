@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const auth = require('./server/routes/auth-routes');
 const users = require('./server/routes/user-routes');
+const threads = require('./server/routes/thread-routes');
 const port = 4000;
 const app = express();
 
@@ -22,8 +23,8 @@ const verifyCookie = (req, res, next) => {
     if (err) {
       return res.status(401).json({status: 'Access denied.'});
     }
+
     req.user = {
-      // id: decoded.data._id,
       username: decoded.data.username,
     }
     next();
@@ -33,6 +34,7 @@ const verifyCookie = (req, res, next) => {
 // Routes
 app.use('/auth', auth);
 app.use('/users', verifyCookie, users);
+app.use('/threads', verifyCookie, threads);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname + "/client/index.html"));

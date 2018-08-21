@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 
 
 class Profile extends Component {
@@ -7,6 +7,18 @@ class Profile extends Component {
     super(props);
 
     this.state = {}
+  }
+
+  componentDidMount = () => {
+    const { user } = this.props;
+
+    axios.get('/users/profile', user)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
