@@ -1,50 +1,83 @@
 const express = require('express');
-const mongojs = require('mongojs');
-const databaseUrl = 'reddit-clone';
-const collections = ['Users', 'Threads'];
-const db = mongojs(databaseUrl, collections);
+const db = require('../models');
 const router = express.Router();
 
 
-// List all threads.
-// router.get('/', (req, res) => {});
+// List all threads
+router.get('/', (req, res) => {
+
+  db.Thread.find({})
+    .then((docs) => {
+
+      const data = docs.map(doc => {
+        return {
+          author: doc.author,
+          title: doc.title,
+          body: doc.body,
+          createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt
+        }
+      });
+
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      res.status(400).json({ status: err });
+    });
+});
 
 // Create a new thread
 router.post('/', (req, res) => {
-  const username = req.user.username;
-  const title = req.user.title;
-  const message = req.user.message;
-  
-  db.Users.findOne({username}, (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
+  const author = req.body.author;
+  const title = req.body.title;
+  const body = req.body.body;
 
-    const {_id } = data;
-
-    db.Threads.insert({
-      author_id: _id,
-      title,
-      message,
-    }, (err, thread) => {
-      if (err) {
-        return console.log(err);
-      }
-
-      res.status(200).json({
-        status:'New thread created.',
-        thread
-      });
+  db.Thread.create({
+    author,
+    title,
+    body
+  })
+    .then(doc => {
+      res.status(200).json({ status: 'New thread created.' });
+    })
+    .catch(err => {
+      res.status(400).json({ status: err });
     });
-  });
 });
 
+// Update a thread
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+  const author = req.body.author;
+  const title = req.body.title;
+  const body = req.body.body;
 
-// Edit a thread's original post
-// router.put('/:id', (req, res) => {});
+  db.Thread.findByIdAndUpdate(id, {
+    author,
+    title,
+    body,
+    updatedAt: new Date(),
+    updated: true
+  })
+    .then(doc => {
+      res.status(200).json({ status: `Updated ${title} thread` });
+    })
+    .catch(err => {
+      res.status(400).json({ status: err });
+    });
+});
 
 // Delete a thread
-// router.delete('/:id', (req, res) => {});
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
 
+  db.Thread.findByIdAndRemove(id)
+    .then(() => {
+      res.status(200).json({ status: 'Deleted thread successful' });
+    })
+    .catch(err => {
+      res.status(400).json({ status: err });
+    });
+});
 
 module.exports = router;

@@ -1,17 +1,23 @@
 const path = require('path');
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const auth = require('./server/routes/auth-routes');
-const users = require('./server/routes/user-routes');
-const threads = require('./server/routes/thread-routes');
+const routes = require('./server/routes');
 const port = 4000;
 const app = express();
+require('dotenv').config();
 
+
+// Use body parser and cookie parser
 app.use(express.static(path.join(__dirname, '/client')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+// Use Mongoose
+mongoose.Promise = Promise;  
+mongoose.connect(`mongodb://localhost/${process.env.MONGO_URI}`);
 
 // Middleware
 const verifyCookie = (req, res, next) => {
@@ -32,12 +38,11 @@ const verifyCookie = (req, res, next) => {
 }
 
 // Routes
-app.use('/auth', auth);
-app.use('/users', verifyCookie, users);
-app.use('/threads', verifyCookie, threads);
+app.use('/threads', routes.threads);
+app.use(routes.comments);
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname + "/client/index.html"));
-});
+// app.get("*", function (req, res) {
+//     res.sendFile(path.join(__dirname + "/client/index.html"));
+// });
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
