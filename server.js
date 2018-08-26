@@ -39,7 +39,7 @@ const verifyCookie = (req, res, next) => {
 
 // Routes
 app.use('/threads', routes.threads);
-app.use(routes.comments);
+app.use('/threads', routes.comments);
 
 // app.get("*", function (req, res) {
 //     res.sendFile(path.join(__dirname + "/client/index.html"));

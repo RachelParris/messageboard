@@ -26,6 +26,20 @@ router.get('/', (req, res) => {
     });
 });
 
+// List one thread w/ comments
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+
+  db.Thread.findOne({ _id: id })
+    .populate('comments')
+    .then(thread => {
+      res.status(200).json(thread);
+    })
+    .catch(err => {
+      res.status(400).json({ status: 'Cound not find thread by id.' });
+    });
+});
+
 // Create a new thread
 router.post('/', (req, res) => {
   const author = req.body.author;
