@@ -5,7 +5,7 @@ const threads = require('./thread-routes');
 const comments = require('./comment-routes');
 const app = express();
 
-const routes = { threads, comments }
+const routes = { auth, threads, comments }
 
 
 

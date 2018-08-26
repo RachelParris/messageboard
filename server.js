@@ -38,6 +38,7 @@ const verifyCookie = (req, res, next) => {
 }
 
 // Routes
+app.use('/auth', routes.auth);
 app.use('/threads', routes.threads);
 app.use('/threads', routes.comments);
 

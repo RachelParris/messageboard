@@ -2,18 +2,22 @@ const mongoose = require('mongoose');
 
 const thread = new mongoose.Schema({
   author: {
-    type: String,
-    required: true
+    id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User' 
+    },
+    username: { 
+      type: String,
+      required: true,
+      }
   },
   title: { 
     type: String,
     required: true,
-    match: /[a-zA-Z0-9]/ 
     },
   body: { 
     type: String, 
     required: true,
-    match: /[a-zA-Z0-9]/ 
   },
   createdAt: { 
     type: Date, 

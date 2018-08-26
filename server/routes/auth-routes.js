@@ -1,16 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const mongojs = require('mongojs');
+const db = require('../models');
 const router = express.Router();
-
-
-// Save the URL of our database as well as the name of our collection
-const databaseUrl = 'reddit-clone';
-const collections = ['Users'];
-
-// Use mongojs to hook the database to the db constiable
-const db = mongojs(databaseUrl, collections);
 
 
 // Register a user
