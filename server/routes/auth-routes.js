@@ -9,27 +9,28 @@ const router = express.Router();
 router.post('/register', (req, res) => {
   const saltRounds = 10;
   const username = req.body.username;
+  const profileName = req.body.profileName;
   const email = req.body.email;
   const password = req.body.password;
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
-      return console.log(err);
+      throw newError(err);
     }
 
     // Store user info with hash in db.
-    db.Users.insert(
-      {
-        username: username,
-        email: email,
-        password: hash
-      }, (err, user) => {
-        if (err) {
-          return console.log(err);
-        }
-        res.status(200).json({status:'User created! Added user to db.', user});
-      }
-    )
+    db.User.create({
+      username,
+      profileName,
+      email,
+      password: hash
+    })
+      .then(user => {
+        res.status(200).json({ status: ' User created!'});
+      })
+      .catch(err => {
+        res.status(400).json({ status: 'Unable to create new user.' });
+      });
   });
 });
 
@@ -38,17 +39,12 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password
-  db.Users.findOne({
-    username: username
-  }, (err, user) => {
-    if (err) {
-      return res.status(400).json({status: 'Username and password do not match.'});
-    } else if (!user) {
-      return res.json({status: 'Username and password do not match.'});
-    } else {
+  
+  db.User.findOne({username})
+    .then(user => {
       // Check that user password matches. Load hash from db.
       if (!bcrypt.compareSync(password, user.password)) {
-        res.json({status: 'Username and password do not match.'})
+        res.json({status: 'Username and password do not match.'});
       } else {
         // Generate token to send to client
         const token = jwt.sign({
@@ -58,12 +54,14 @@ router.post('/login', (req, res) => {
             id: user._id,
             username: user.username,
           }
-        }, 'superAwesomeSecretKey');
+        }, process.env.SECRET_KEY);
         res.cookie("awesomeToken", token).json({ status: 'User is now logged in.' });
         // res.status(200).redirect('/users/profile');
       }
-    }
-  });
+    })
+    .catch(err => {
+      res.status(400).json({ status: 'Username and password do not match.' });
+    });
 });
 
 // TODO Reset user password via email w/ nodemailer

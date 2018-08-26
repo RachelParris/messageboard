@@ -1,6 +1,6 @@
-const User = require('./user');
+const User = require('./users');
 const Thread = require('./threads');
-const Comment = require('./thread-comments');
+const Comment = require('./comments');
 
 db = { User, Thread, Comment }
 

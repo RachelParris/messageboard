@@ -10,7 +10,6 @@ require('dotenv').config();
 
 
 // Use body parser and cookie parser
-app.use(express.static(path.join(__dirname, '/client')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -42,8 +41,5 @@ app.use('/auth', routes.auth);
 app.use('/threads', routes.threads);
 app.use('/threads', routes.comments);
 
-// app.get("*", function (req, res) {
-//     res.sendFile(path.join(__dirname + "/client/index.html"));
-// });
-
+// Server
 app.listen(port, () => console.log(`Server started on port ${port}`));

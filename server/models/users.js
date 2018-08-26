@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
-const User = new mongoose.Schema({
+const user = new mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   profileName: String,
   password: {
@@ -12,14 +13,19 @@ const User = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   threads: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Thread'
-  }]
+  }],
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  }
 });
 
-const User = mongoose.model('User', User);
+const User = mongoose.model('User', user);
 
 module.exports = User;
