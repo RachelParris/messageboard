@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -11,14 +12,18 @@ class App extends Component {
 
     this.state = {
       user: {},
+      token: '',
       loggedIn: false
     }
   }
 
   onLoginSuccessful = (user) => {
+    const cookie = Cookies.get('awesomeToken');
+
     this.setState({
-      user,
-      loggedIn: true
+      token: cookie,
+      loggedIn: true,
+      ...this.state
     });
   }
 
