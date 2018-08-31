@@ -37,14 +37,14 @@ router.post('/register', (req, res) => {
 
 // Login a user
 router.post('/login', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password
+  const email = req.body.email;
+  const password = req.body.password;
   
-  db.User.findOne({username})
+  db.User.findOne({email})
     .then(user => {
       // Check that user password matches. Load hash from db.
       if (!bcrypt.compareSync(password, user.password)) {
-        res.json({status: 'Username and password do not match.'});
+        res.status(400).json({status: 'Username and password do not match.'});
       } else {
         // Generate token to send to client
         const token = jwt.sign({
@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
             username: user.username,
           }
         }, process.env.SECRET_KEY);
-        res.cookie("awesomeToken", token).json({ status: 'User is now logged in.' });
+        res.status(200).cookie("awesomeToken", token).json({ status: 'User is now logged in.' });
         // res.status(200).redirect('/users/profile');
       }
     })

@@ -16,6 +16,7 @@ const user = new mongoose.Schema({
     required: true,
     unique: true
   },
+  bio: String,
   threads: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Thread'

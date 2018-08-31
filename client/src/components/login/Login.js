@@ -27,10 +27,10 @@ class Login extends Component {
     // Get the form data out of state
     axios.post('/auth/login', this.state)
       .then((res) => {
-        console.log(res);
-        this.props.onLoginSuccessful(this.state);
+        this.props.onLoginSuccessful();
       })
       .catch((err) => {
+        // TODO Tell user that username or password do not match
         console.log(err)
       });
 
@@ -42,7 +42,7 @@ class Login extends Component {
 
     return (
       <div>
-        <Header />
+        <Header logOutUser={this.props.logOutUser} />
         <div className="container">
           <h1>Welcome to Reddit-Clone App</h1>
           <form onSubmit={this.handleSubmit}>

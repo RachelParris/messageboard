@@ -12,14 +12,12 @@ const Router = (props) => (
   <div>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" render={() => <Home logoutUser={this.logoutUser} />} />
+        <Route exact path="/" render={() => <Home logoutUser={props.logoutUser} />} />
         <Route path="/register" component={Register} />
         <Route path="/login" render={() => (
-          props.loggedIn ? <Redirect to="/threads" /> : <Login onLoginSuccessful={this.onLoginSuccessful} />
+          props.loggedIn ? <Redirect to="/profile" /> : <Login logOutUser={props.logOutUser} onLoginSuccessful={props.onLoginSuccessful} />
         )} />
-        <Route path="/users/profile" render={() => <Profile 
-          user={this.state.user.username}
-          sendToken={this.sendToken} />} />
+        <Route path="/profile" render={() => <Profile onLoginSuccessful={props.onLoginSuccessful} />} />
         <Route path="/threads" component={AllThreads} />
         <Route path="/threads/new" component={NewThread} />
         {/* <Route component={NotFound} /> */}

@@ -28,8 +28,6 @@ const verifyCookie = (req, res, next) => {
       return res.status(401).json({status: 'Access denied.'});
     }
 
-    console.log(decoded);
-
     req.user = {
       id: decoded.data.id,
       username: decoded.data.username,
@@ -40,6 +38,7 @@ const verifyCookie = (req, res, next) => {
 
 // Routes
 app.use('/auth', routes.auth);
+app.use('/profile', verifyCookie, routes.users);
 app.use('/threads', verifyCookie, routes.threads);
 app.use('/threads', verifyCookie, routes.comments);
 

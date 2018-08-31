@@ -5,9 +5,8 @@ import Header from '../header/Header';
 
 class Profile extends Component {
   componentDidMount = () => {
-    const { user } = this.props;
-
-    axios.get('/users/profile', user)
+    this.props.onLoginSuccessful();
+    axios.get('/profile')
       .then((res) => {
         console.log(res);
       })
@@ -17,14 +16,12 @@ class Profile extends Component {
   }
 
   render() {
-    const { user } = this.props;
-
     return (
       <div>
         <div>
           <Header />
         </div>
-        <h1>{user ? user : 'Jane Doe'}'s Profile</h1>
+        <h1>User's Profile</h1>
       </div>
     );
   }

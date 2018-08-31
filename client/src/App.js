@@ -18,13 +18,11 @@ class App extends Component {
   }
 
   onLoginSuccessful = (user) => {
+    // TODO Only trigger when user is actually logged in
     const cookie = Cookies.get('awesomeToken');
 
     this.setState({
-      user: {
-        username: user.username
-      },
-      token: cookie,
+      ...this.state,
       loggedIn: true
     });
   }
@@ -40,17 +38,18 @@ class App extends Component {
       });
   }
 
-  logoutUser = () => {
+  logOutUser = () => {
     Cookies.remove('awesomeToken');
   }
 
 
   render() {
-    const { loggedIn } = this.state;
-
     return (
       <div>
-          <AppRouter />
+          <AppRouter 
+            loggedIn={this.state.loggedIn}
+            logOutUser={this.logOutUser}
+            onLoginSuccessful={this.onLoginSuccessful} />
       </div>
     );
   }

@@ -9,8 +9,8 @@ const Header = (props) => (
       <li><NavLink to="/login">Login</NavLink></li>
       <li><NavLink to="threads">Message Board</NavLink></li>
       <li><NavLink to="threads/new">New Thread</NavLink></li>
-      <li><NavLink to="/users/profile">Profile</NavLink></li>
-      <li><NavLink to="/" onClick={props.logoutUser}>Logout</NavLink></li>
+      <li><NavLink to="/profile">Profile</NavLink></li>
+      <li><NavLink to="/" onClick={props.logOutUser}>Logout</NavLink></li>
     </ul>
   </nav>
 );

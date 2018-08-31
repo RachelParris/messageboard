@@ -1,26 +1,27 @@
 const express = require('express');
-const mongojs = require('mongojs');
-const databaseUrl = 'reddit-clone';
-const collections = ['Users', 'Threads'];
-const db = mongojs(databaseUrl, collections);
+const db = require('../models');
 const router = express.Router();
 
 
-router.get('/profile', (req, res) => {
-  // Username from middleware
-  const username = req.user.username;
+router.get('/', (req, res) => {
+  // Id from middleware
+  const id = req.user.id;
 
-  db.Users.findOne({username}, (err, data) => {
+  db.User.findById(id, (err, data) => {
     if (err) {
       return console.log(err);
     }
 
-    const {email, username } = data;
 
-    res.status(200).json({
-      email,
-      username
-    });
+   const user = {
+      createdAt: data.createdAt,
+      threads: data.threads,
+      username: data.username,
+      profileName: data.profileName,
+      bio: data.bio
+   }
+
+    res.status(200).json(user);
   });
 });
 
