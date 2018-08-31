@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
+// import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import Register from './components/Register';
-import Login from './components/Login';
-import Profile from './components/Profile';
-import NewThread from './components/NewThread';
+import axios from 'axios';
+import './App.css';
+import AppRouter from './Router';
+
 
 class App extends Component {
   constructor(props) {
@@ -21,28 +21,37 @@ class App extends Component {
     const cookie = Cookies.get('awesomeToken');
 
     this.setState({
+      user: {
+        username: user.username
+      },
       token: cookie,
-      loggedIn: true,
-      ...this.state
+      loggedIn: true
     });
   }
+
+  sendToken = () => {
+    // Send the token to the backend
+    axios.post('/', this.state.token)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  logoutUser = () => {
+    Cookies.remove('awesomeToken');
+  }
+
 
   render() {
     const { loggedIn } = this.state;
 
     return (
-      <BrowserRouter>
-        <Switch>
-          {/* <Route exact path="/" component={Home} /> */}
-          <Route path="/register" component={Register} />
-          <Route path="/login" render={() => (
-            loggedIn ? <Redirect to="/users/profile" /> : <Login onLoginSuccessful={this.onLoginSuccessful} />
-          )} />
-          <Route path="/users/profile" render={() => <Profile user={this.state.user.username} />} />
-          <Route path="/threads" component={NewThread} />
-          {/* <Route component={NotFound} /> */}
-        </Switch>
-      </BrowserRouter>
+      <div>
+          <AppRouter />
+      </div>
     );
   }
 }

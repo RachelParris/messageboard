@@ -5,7 +5,6 @@ const router = express.Router();
 
 // List all threads
 router.get('/', (req, res) => {
-
   db.Thread.find({})
     .then((docs) => {
 
@@ -42,7 +41,7 @@ router.get('/:id', (req, res) => {
 
 // Create a new thread
 router.post('/', (req, res) => {
-  const author = req.body.author;
+  const author = req.user.username;
   const title = req.body.title;
   const body = req.body.body;
 

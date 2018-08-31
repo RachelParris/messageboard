@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Header from './header/Header';
 
 
 class NewThread extends Component {
@@ -38,25 +39,28 @@ class NewThread extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Title: </label>
-          <input 
-            type="text"
-            name="title"
-            value={title}
-            onChange={this.handleChange} />
+        <Header />
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <label>Title: </label>
+            <input 
+              type="text"
+              name="title"
+              value={title}
+              onChange={this.handleChange} />
 
-          <label>Message: </label>
-          <textarea 
-            name="message"
-            col="50"
-            rows="10"
-            value={message}
-            onChange={this.handleChange}>
-          </textarea>
+            <label>Message: </label>
+            <textarea 
+              name="message"
+              col="50"
+              rows="10"
+              value={message}
+              onChange={this.handleChange}>
+            </textarea>
 
-          <input type="submit" value="Create Thread" />
-        </form>
+            <input type="submit" value="Create Thread" />
+          </form>
+        </div>
       </div>
     );
   }

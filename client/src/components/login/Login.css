@@ -19,10 +19,9 @@ label {
   color: #9185d7;
 }
 
-.login-input, .register-input {
+.login-input {
   border: none;
   border-bottom: 1px solid #150833;
-  background-color: #fff;
   color: #251876;
   margin: 10px;
 }

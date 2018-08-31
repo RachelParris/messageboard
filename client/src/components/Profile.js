@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Header from './header/Header';
 
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {}
-  }
-
   componentDidMount = () => {
     const { user } = this.props;
 
@@ -26,6 +21,9 @@ class Profile extends Component {
 
     return (
       <div>
+        <div>
+          <Header />
+        </div>
         <h1>{user ? user : 'Jane Doe'}'s Profile</h1>
       </div>
     );
