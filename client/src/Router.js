@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/home/Home';
 import Register from './components/register/Register';
 import Login from './components/login/Login';
-import Profile from './components/Profile';
-import AllThreads from './components/AllThreads';
-import NewThread from './components/NewThread';
+import Profile from './components/profile/Profile';
+import AllThreads from './components/allthreads/AllThreads';
+import NewThread from './components/newthread/NewThread';
 
 
 const Router = (props) => (
