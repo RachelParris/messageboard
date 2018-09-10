@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-* {
-  font-size: 18px;
-}
-
 body {
   display: flex;
   justify-content: center;
@@ -16,7 +12,7 @@ body {
 }
 
 label {
-  color: #9185d7;
+  color: var(--light-purple);
 }
 
 .login-input {
@@ -24,14 +20,4 @@ label {
   border-bottom: 1px solid #150833;
   color: #251876;
   margin: 10px;
-}
-
-.btn {
-  background-color: #ff0044;
-  color: #fff;
-  padding: 10px 15px;
-  margin: 10px;
-  border: none;
-  border-radius: 25px;
-  line-height: 10px;
 }

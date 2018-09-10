@@ -10,21 +10,20 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    const cookie = Cookies.get('awesomeToken');
+
     this.state = {
       user: {},
-      token: '',
-      loggedIn: false
+      token: cookie || '',
+      loggedIn: !!cookie
     }
   }
 
   onLoginSuccessful = (user) => {
-    // TODO Only trigger when user is actually logged in
-    const cookie = Cookies.get('awesomeToken');
-
-    this.setState({
-      ...this.state,
-      loggedIn: true
-    });
+    // this.setState({
+    //   ...this.state,
+    //   loggedIn: true
+    // });
   }
 
   sendToken = () => {
